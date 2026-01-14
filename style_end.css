@@ -1,0 +1,74 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+}
+
+header {
+    background-color: #2c3e50;
+    color: white;
+    padding: 15px 20px;
+}
+
+header h1 {
+    margin: 0;
+}
+
+#container {
+    display: flex;
+    height: calc(100vh - 120px);
+}
+
+#map {
+    flex: 2;
+}
+
+#survey {
+    flex: 1;
+    background-color: white;
+    padding: 15px;
+    overflow-y: auto;
+    border-left: 1px solid #ccc;
+}
+
+#survey h2, #survey h3 {
+    margin-top: 0;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+select, textarea, button {
+    width: 100%;
+    padding: 6px;
+    margin-top: 4px;
+}
+
+button {
+    margin-top: 15px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+#downloadBtn {
+    background-color: #27ae60;
+}
+
+#downloadBtn:hover {
+    background-color: #1e8449;
+}
+
+.hint {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 10px;
+}

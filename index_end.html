@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PPGIS Urban Experiences</title>
+
+    <!-- Leaflet CSS -->
+    <link 
+        rel="stylesheet" 
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style_end.css">
+</head>
+<body>
+
+<header>
+    <h1>Urban Experiences Mapping (PPGIS)</h1>
+    <p>
+        This anonymous survey maps people's experiences of urban places.
+        Participation is voluntary. No personal identifying data is collected.
+    </p>
+</header>
+
+<div id="container">
+    <!-- Map -->
+    <div id="map"></div>
+
+    <!-- Survey Panel -->
+    <div id="survey">
+        <h2>Add a Place</h2>
+
+        <form id="surveyForm">
+            <label for="theme">Experience type:</label>
+            <select id="theme" required>
+                <option value="">Select one</option>
+                <option value="safe">Safe</option>
+                <option value="unsafe">Unsafe</option>
+                <option value="relaxing">Relaxing</option>
+                <option value="stressful">Stressful</option>
+            </select>
+
+            <label for="comment">Comment (optional):</label>
+            <textarea id="comment" rows="3"></textarea>
+
+            <h3>Sociodemographics</h3>
+
+            <label for="age">Age group:</label>
+            <select id="age">
+                <option value="">Prefer not to say</option>
+                <option value="0-19">0–19</option>
+                <option value="20-29">20–29</option>
+                <option value="30-39">30–39</option>
+                <option value="40-49">40–49</option>
+                <option value="50-59">50–59</option>
+                <option value="60-69">60–69</option>
+                <option value="70+">70+</option>
+            </select>
+
+            <label for="gender">Gender:</label>
+            <select id="gender">
+                <option value="">Prefer not to say</option>
+                <option value="female">Female</option>
+                <option value="male">Male</option>
+                <option value="diverse">Diverse</option>
+            </select>
+
+            <label for="transport">Typical transport:</label>
+            <select id="transport">
+                <option value="">Prefer not to say</option>
+                <option value="walk">Walk</option>
+                <option value="bike">Bike</option>
+                <option value="public_transport">Public Transport</option>
+                <option value="car">Car</option>
+                <option value="other">Other</option>
+            </select>
+
+            <button type="submit">Save Location</button>
+        </form>
+
+        <button id="downloadBtn">Download GeoJSON</button>
+
+        <p class="hint">
+            Click on the map to choose a location before saving.
+        </p>
+    </div>
+</div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- Custom JS -->
+<script src="script_end.js"></script>
+</body>
+</html>
