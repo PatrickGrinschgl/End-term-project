@@ -10,7 +10,7 @@ let geojsonData = {
     type: "FeatureCollection",
     features: []
 };
-
+  
 let selectedLatLng = null;
 let tempMarker = null;
 
