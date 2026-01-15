@@ -1,5 +1,5 @@
 // Initialize map
-const map = L.map('map').setView([52.52, 13.405], 12); // Example: Berlin
+const map = L.map('map').setView([47.071, 15.438], 15);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors'
