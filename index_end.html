@@ -35,14 +35,29 @@
             <label for="theme">Experience type:</label>
             <select id="theme" required>
                 <option value="">Select one</option>
-                <option value="safe">Safe</option>
-                <option value="unsafe">Unsafe</option>
-                <option value="relaxing">Relaxing</option>
-                <option value="stressful">Stressful</option>
+                <option value="comfortable">Comfortable</option>
+                <option value="stressed">Stressed</option>
             </select>
 
-            <label for="comment">Comment (optional):</label>
-            <textarea id="comment" rows="3"></textarea>
+            <label for="reason">Reason:</label>
+            <select id="reason" required>
+                <option value="">Select a reason</option>
+
+                <!-- Comfortable reasons -->
+                <option value="quiet" data-theme="comfortable">Quiet environment</option>
+                <option value="greenery" data-theme="comfortable">Green spaces</option>
+                <option value="good_design" data-theme="comfortable">Pleasant urban design</option>
+                <option value="safe_feeling" data-theme="comfortable">Feeling safe</option>
+                <option value="social_atmosphere" data-theme="comfortable">Nice social atmosphere</option>
+
+                <!-- Stressed reasons -->
+                <option value="traffic" data-theme="stressed">Heavy traffic</option>
+                <option value="noise" data-theme="stressed">Noise</option>
+                <option value="crowds" data-theme="stressed">Too many people</option>
+                <option value="unsafe" data-theme="stressed">Feeling unsafe</option>
+                <option value="poor_design" data-theme="stressed">Poor urban design</option>
+            </select>
+
 
             <h3>Sociodemographics</h3>
 
@@ -64,16 +79,6 @@
                 <option value="female">Female</option>
                 <option value="male">Male</option>
                 <option value="diverse">Diverse</option>
-            </select>
-
-            <label for="transport">Typical transport:</label>
-            <select id="transport">
-                <option value="">Prefer not to say</option>
-                <option value="walk">Walk</option>
-                <option value="bike">Bike</option>
-                <option value="public_transport">Public Transport</option>
-                <option value="car">Car</option>
-                <option value="other">Other</option>
             </select>
 
             <button type="submit">Save Location</button>

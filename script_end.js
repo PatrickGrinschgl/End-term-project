@@ -58,13 +58,16 @@ document.getElementById('surveyForm').addEventListener('submit', function (e) {
             coordinates: [selectedLatLng.lng, selectedLatLng.lat]
         },
         properties: {
-            theme: document.getElementById('theme').value,
-            comment: document.getElementById('comment').value,
+            experience: document.getElementById('theme').value,
+            reason: document.getElementById('reason').value,
             age: document.getElementById('age').value,
             gender: document.getElementById('gender').value,
-            transport: document.getElementById('transport').value,
+            inside_innere_stadt: innereStadtPolygon
+                ? isPointInsidePolygon(selectedLatLng, innereStadtPolygon)
+                : null,
             timestamp: new Date().toISOString()
         }
+
     };
 
     geojsonData.features.push(feature);
@@ -96,4 +99,26 @@ document.getElementById('downloadBtn').addEventListener('click', function () {
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
+});
+
+const themeSelect = document.getElementById('theme');
+const reasonSelect = document.getElementById('reason');
+
+themeSelect.addEventListener('change', function () {
+    const selectedTheme = this.value;
+
+    // Enable / disable reason dropdown
+    reasonSelect.disabled = !selectedTheme;
+
+    // Reset selected reason
+    reasonSelect.value = "";
+
+    // Show only matching reasons
+    Array.from(reasonSelect.options).forEach(option => {
+        if (!option.dataset.theme) {
+            option.hidden = false;
+            return;
+        }
+        option.hidden = option.dataset.theme !== selectedTheme;
+    });
 });
