@@ -5,6 +5,23 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
+// Innere Stadt boundary (GeoJSON)
+fetch('innere_stadt.geojson')
+    .then(response => response.json())
+    .then(data => {
+        L.geoJSON(data, {
+            style: {
+                color: '#2c3e50',
+                weight: 2,
+                fillOpacity: 0.05
+            }
+        }).addTo(map);
+    });
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+}).addTo(map);
+
 // Store collected data
 let geojsonData = {
     type: "FeatureCollection",
