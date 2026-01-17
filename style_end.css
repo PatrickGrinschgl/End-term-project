@@ -14,6 +14,29 @@ header h1 {
     margin: 0;
 }
 
+.description {
+    margin-top: 10px;
+    max-width: 900px;
+}
+
+.description p {
+    margin-bottom: 8px;
+}
+
+.description ul {
+    margin-left: 20px;
+    margin-bottom: 10px;
+}
+
+.description li {
+    margin-bottom: 6px;
+}
+
+.ethics {
+    font-size: 0.9em;
+    color: #ecf0f1;
+}
+
 #container {
     display: flex;
     height: calc(100vh - 120px);
