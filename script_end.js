@@ -78,17 +78,32 @@ document.getElementById('surveyForm').addEventListener('submit', function (e) {
     document.getElementById('surveyForm').reset();
 });
 
-// Download GeoJSON
+// Neuer Download-Button Listener
 document.getElementById('downloadBtn').addEventListener('click', function () {
-    const dataStr = "data:text/json;charset=utf-8," +
-        encodeURIComponent(JSON.stringify(geojsonData, null, 2));
+    if (geojsonData.features.length === 0) {
+        alert("No points to download!");
+        return;
+    }
 
-    const downloadAnchor = document.createElement('a');
-    downloadAnchor.setAttribute("href", dataStr);
-    downloadAnchor.setAttribute("download", "ppgis_data.geojson");
-    document.body.appendChild(downloadAnchor);
-    downloadAnchor.click();
-    downloadAnchor.remove();
+    // Erstelle eine Kopie der Features und füge Socio-Demographics hinzu
+    const dataToExport = JSON.parse(JSON.stringify(geojsonData)); // deep copy
+
+    dataToExport.features.forEach(f => {
+        // Ihr habt bereits age, gender, experience, reason, timestamp gespeichert
+        // Wenn ihr noch was zusätzlich braucht, könnt ihr hier einfügen
+    });
+
+    // Dateiname mit Timestamp
+    const fileName = `participant_data_${new Date().toISOString().replace(/[:.]/g,'-')}.geojson`;
+
+    // Speichern
+    saveToFile(dataToExport, fileName);
+    alert("Data downloaded successfully!");
+
+    // Optional: Karte bereinigen & Formular reset
+    drawnItems.clearLayers();
+    geojsonData.features = [];
+    document.getElementById('surveyForm').reset();
 });
 
 const themeSelect = document.getElementById('theme');
