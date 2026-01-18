@@ -31,25 +31,12 @@ let geojsonData = {
 let selectedLatLng = null;
 let tempMarker = null;
 
-// Click on map to select location
-map.on('click', function (e) {
-    selectedLatLng = e.latlng;
-
-    if (tempMarker) {
-        map.removeLayer(tempMarker);
-    }
-
-    tempMarker = L.marker(selectedLatLng).addTo(map);
-});
 
 // Handle form submission
 document.getElementById('surveyForm').addEventListener('submit', function (e) {
     e.preventDefault();
 
-    if (!selectedLatLng) {
-        alert("Please click on the map to select a location.");
-        return;
-    }
+    const selectedLatLng = map.getCenter();
 
     const feature = {
         type: "Feature",
@@ -125,3 +112,7 @@ themeSelect.addEventListener('change', function () {
         option.hidden = option.dataset.theme !== selectedTheme;
     });
 });
+
+setTimeout(() => {
+    map.invalidateSize();
+}, 200);
