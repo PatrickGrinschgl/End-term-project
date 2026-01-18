@@ -62,9 +62,6 @@ document.getElementById('surveyForm').addEventListener('submit', function (e) {
             reason: document.getElementById('reason').value,
             age: document.getElementById('age').value,
             gender: document.getElementById('gender').value,
-            inside_innere_stadt: innereStadtPolygon
-                ? isPointInsidePolygon(selectedLatLng, innereStadtPolygon)
-                : null,
             timestamp: new Date().toISOString()
         }
 
@@ -75,9 +72,15 @@ document.getElementById('surveyForm').addEventListener('submit', function (e) {
     // Add permanent marker
     L.circleMarker(selectedLatLng, {
         radius: 6,
-        color: "#e74c3c"
-    }).addTo(map)
-      .bindPopup(`<b>${feature.properties.theme}</b><br>${feature.properties.comment}`);
+        color: feature.properties.experience === "comfortable" ? "green" : "red",
+        fillOpacity: 0.7
+    })
+    .addTo(map)
+    .bindPopup(`
+        <b>${feature.properties.experience}</b><br>
+        Reason: ${feature.properties.reason}
+    `);
+
 
     // Reset temp marker
     map.removeLayer(tempMarker);
