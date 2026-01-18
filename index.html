@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PPGIS Urban Experiences</title>
+ 
+    <!-- Leaflet CSS -->
+    <link 
+        rel="stylesheet" 
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+
+    <!-- Custommm  CSS -->
+    <link rel="stylesheet" href="style_end.css">
+</head>
+<body>
+
+<header>
+    <h1>Pedestrian Comfort and Stress in Graz – Innere Stadt</h1>
+
+    <div class="description">
+        <p>
+            We want to explore how people experience walking in the first district of Graz (Innere Stadt).
+            We aim to compare places that feel comfortable and pleasant for walking
+            with places that feel stressful or uncomfortable.
+        </p>
+
+        <p><strong>How to participate:</strong></p>
+        <ul>
+            <li>
+                Move the map so that the location you want to mark is centered under the red crosshair (+) inside the district boundry to mark a place where walking feels
+                <strong>comfortable or stressful</strong>
+                Then select the experience type and a reason.
+                You can add as many markers as you like, just click on the button "Save Location" after every entry.
+            </li>
+        </ul>
+        <p class="ethics">
+            Participation is voluntary and anonymous. No personal identifying data is collected.
+        </p>
+    </div>
+</header>
+
+<div id="container">
+    <!-- Map -->
+    <div id="map">
+        <div id="crosshair"></div>
+    </div>
+
+    <!-- Survey Panel -->
+    <div id="survey">
+        <h2>Add a Place</h2>
+
+        <form id="surveyForm">
+            <label for="theme">Experience type:</label>
+            <select id="theme" required>
+                <option value="">Select one</option>
+                <option value="comfortable">Comfortable</option>
+                <option value="stressed">Stressed</option>
+            </select>
+
+            <label for="reason">Reason:</label>
+            <select id="reason" required disabled>
+                <option value="">Select a reason</option>
+
+                <!-- Comfortable reasons -->
+                <option value="quiet" data-theme="comfortable">Quiet environment</option>
+                <option value="greenery" data-theme="comfortable">Green spaces</option>
+                <option value="good_design" data-theme="comfortable">Pleasant urban design</option>
+                <option value="safe_feeling" data-theme="comfortable">Feeling safe</option>
+                <option value="social_atmosphere" data-theme="comfortable">Nice social atmosphere</option>
+
+                <!-- Stressed reasons -->
+                <option value="traffic" data-theme="stressed">Heavy traffic</option>
+                <option value="noise" data-theme="stressed">Noise</option>
+                <option value="crowds" data-theme="stressed">Too many people</option>
+                <option value="unsafe" data-theme="stressed">Feeling unsafe</option>
+                <option value="poor_design" data-theme="stressed">Poor urban design</option>
+            </select>
+
+
+            <h3>Sociodemographics</h3>
+
+            <label for="age">Age group:</label>
+            <select id="age">
+                <option value="">Prefer not to say</option>
+                <option value="0-19">0–19</option>
+                <option value="20-29">20–29</option>
+                <option value="30-39">30–39</option>
+                <option value="40-49">40–49</option>
+                <option value="50-59">50–59</option>
+                <option value="60-69">60–69</option>
+                <option value="70+">70+</option>
+            </select>
+
+            <label for="gender">Gender:</label>
+            <select id="gender">
+                <option value="">Prefer not to say</option>
+                <option value="female">Female</option>
+                <option value="male">Male</option>
+                <option value="diverse">Diverse</option>
+            </select>
+
+            <button type="submit">Save Location</button>
+        </form>
+
+        <button id="downloadBtn">Download GeoJSON</button>
+
+    </div>
+</div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- Custom JS -->
+<script src="script_end.js"></script>
+</body>
+</html>
+ 
