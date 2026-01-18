@@ -78,6 +78,22 @@ document.getElementById('surveyForm').addEventListener('submit', function (e) {
     document.getElementById('surveyForm').reset();
 });
 
+// Download GeoJSON
+// Utility-Funktion: speichert JSON als Datei
+function saveToFile(content, fileName) {
+    let blob = new Blob([JSON.stringify(content, null, 2)], { type: "application/json" });
+    let url = URL.createObjectURL(blob);
+
+    let link = document.createElement("a");
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+}
+
 // Neuer Download-Button Listener
 document.getElementById('downloadBtn').addEventListener('click', function () {
     if (geojsonData.features.length === 0) {
