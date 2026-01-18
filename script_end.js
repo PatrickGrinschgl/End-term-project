@@ -18,18 +18,16 @@ fetch('innere_stadt.geojson')
         }).addTo(map);
     });
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; OpenStreetMap contributors'
-}).addTo(map);
 
 // Store collected data
 let geojsonData = {
     type: "FeatureCollection",
     features: []
 };
-  
+
 let selectedLatLng = null;
 let tempMarker = null;
+
 
 
 // Handle form submission
@@ -47,10 +45,12 @@ document.getElementById('surveyForm').addEventListener('submit', function (e) {
         properties: {
             experience: document.getElementById('theme').value,
             reason: document.getElementById('reason').value,
+            comment: document.getElementById('comment').value,
             age: document.getElementById('age').value,
             gender: document.getElementById('gender').value,
             timestamp: new Date().toISOString()
         }
+
 
     };
 
@@ -64,9 +64,11 @@ document.getElementById('surveyForm').addEventListener('submit', function (e) {
     })
     .addTo(map)
     .bindPopup(`
-        <b>${feature.properties.experience}</b><br>
-        Reason: ${feature.properties.reason}
+    <b>${feature.properties.experience}</b><br>
+    Reason: ${feature.properties.reason}<br>
+    Comment: ${feature.properties.comment}
     `);
+
 
 
     // Reset temp marker
@@ -121,6 +123,8 @@ document.getElementById('downloadBtn').addEventListener('click', function () {
     geojsonData.features = [];
     document.getElementById('surveyForm').reset();
 });
+
+
 
 const themeSelect = document.getElementById('theme');
 const reasonSelect = document.getElementById('reason');
