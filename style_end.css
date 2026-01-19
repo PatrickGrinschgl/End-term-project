@@ -1,6 +1,15 @@
 /* ===== Global ===== */
-body {
+*, *::before, *::after {
+    box-sizing: border-box; /* für gleichmäßige Breiten */
+}
+
+html, body {
     margin: 0;
+    width: 100%;
+    overflow-x: hidden; /* entfernt weißen Streifen rechts */
+}
+
+body {
     font-family: Arial, sans-serif;
     background-color: #f5f5f5;
     font-size: 16px;
@@ -43,12 +52,16 @@ header h1 {
 /* ===== Layout ===== */
 #container {
     display: flex;
+    width: 100%;
     height: calc(100vh - 120px);
+    max-width: 100%;
 }
 
 #map {
     position: relative; /* EXTREM WICHTIG */
     flex: 2;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 #survey {
@@ -153,32 +166,22 @@ button:hover {
     }
 
     #container {
-        flex-direction: column;
+        display: block;   /* Karte + Formular untereinander */
         height: auto;
     }
 
     #map {
+        width: 100%;
         height: 50vh;
-        flex: none;
     }
 
     #survey {
-        flex: none;
+        width: 100%;
         border-left: none;
         border-top: 1px solid #ccc;
     }
 
-    select,
-    textarea,
-    button {
-        font-size: 16px;
-    }
-
-    button {
-        padding: 12px;
-    }
-
-    /* Crosshair kleiner auf Mobile */
+    /* Crosshair kleiner */
     #crosshair {
         width: 16px;
         height: 16px;
@@ -191,5 +194,30 @@ button:hover {
     #crosshair::after {
         width: 16px;
     }
-}
 
+    /* Formularelemente und Schrift kompakter */
+    #survey h2 {
+        font-size: 1.2em;
+        margin-bottom: 8px;
+    }
+
+    #survey h3 {
+        font-size: 1em;
+        margin-top: 16px;
+    }
+
+    #survey label {
+        font-size: 0.9em;
+        margin-top: 8px;
+    }
+
+    #survey select,
+    #survey textarea,
+    #survey button {
+        font-size: 16px; /* Buttons & Inputs bleiben klickbar */
+    }
+
+    #survey textarea {
+        min-height: 60px;
+    }
+}
