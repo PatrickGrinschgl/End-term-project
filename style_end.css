@@ -1,7 +1,9 @@
+/* ===== Global ===== */
 body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f5f5f5;
+    font-size: 16px;
 }
 
 header {
@@ -12,6 +14,7 @@ header {
 
 header h1 {
     margin: 0;
+    font-size: 1.6em;
 }
 
 .description {
@@ -37,14 +40,14 @@ header h1 {
     color: #ecf0f1;
 }
 
-
+/* ===== Layout ===== */
 #container {
     display: flex;
     height: calc(100vh - 120px);
 }
 
 #map {
-    position: relative;   /* EXTREM WICHTIG */
+    position: relative; /* EXTREM WICHTIG */
     flex: 2;
 }
 
@@ -56,20 +59,29 @@ header h1 {
     border-left: 1px solid #ccc;
 }
 
-#survey h2, #survey h3 {
+#survey h2,
+#survey h3 {
     margin-top: 0;
 }
 
+/* ===== Form ===== */
 label {
     display: block;
     margin-top: 10px;
     font-weight: bold;
 }
 
-select, textarea, button {
+select,
+textarea,
+button {
     width: 100%;
-    padding: 6px;
+    padding: 8px;
     margin-top: 4px;
+    font-size: 16px;
+}
+
+textarea {
+    min-height: 80px;
 }
 
 button {
@@ -98,6 +110,7 @@ button:hover {
     margin-top: 10px;
 }
 
+/* ===== Crosshair ===== */
 #crosshair {
     position: absolute;
     top: 50%;
@@ -131,3 +144,52 @@ button:hover {
     left: 0;
     transform: translateY(-50%);
 }
+
+/* ===== Mobile Optimierung ===== */
+@media (max-width: 768px) {
+
+    header h1 {
+        font-size: 1.3em;
+    }
+
+    #container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    #map {
+        height: 50vh;
+        flex: none;
+    }
+
+    #survey {
+        flex: none;
+        border-left: none;
+        border-top: 1px solid #ccc;
+    }
+
+    select,
+    textarea,
+    button {
+        font-size: 16px;
+    }
+
+    button {
+        padding: 12px;
+    }
+
+    /* Crosshair kleiner auf Mobile */
+    #crosshair {
+        width: 16px;
+        height: 16px;
+    }
+
+    #crosshair::before {
+        height: 16px;
+    }
+
+    #crosshair::after {
+        width: 16px;
+    }
+}
+

@@ -148,6 +148,13 @@ themeSelect.addEventListener('change', function () {
     });
 });
 
+// Initial fix after page load
 setTimeout(() => {
     map.invalidateSize();
 }, 200);
+
+// Fix for screen resize / orientation change
+window.addEventListener('resize', () => {
+    map.invalidateSize();
+});
+
