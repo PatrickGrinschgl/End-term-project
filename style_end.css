@@ -1,23 +1,35 @@
-/* ===== Global ===== */
+/* =====================================================
+   GLOBAL RESET & BASE STYLES
+===================================================== */
+
+/* Apply consistent box sizing to all elements */
 *, *::before, *::after {
-    box-sizing: border-box; /* für gleichmäßige Breiten */
+    box-sizing: border-box; /* Ensures predictable element widths */
 }
 
-html, body {
+/* Remove default margins and prevent horizontal overflow */
+html,
+body {
     margin: 0;
     width: 100%;
-    overflow-x: hidden; /* entfernt weißen Streifen rechts */
+    overflow-x: hidden; /* Removes unwanted white strip on the right */
 }
 
+/* Base typography and background */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
     font-size: 16px;
+    background-color: #f5f5f5;
 }
+
+
+/* =====================================================
+   HEADER & DESCRIPTION
+===================================================== */
 
 header {
     background-color: #2c3e50;
-    color: white;
+    color: #ffffff;
     padding: 15px 20px;
 }
 
@@ -26,6 +38,7 @@ header h1 {
     font-size: 1.6em;
 }
 
+/* Project description block */
 .description {
     margin-top: 10px;
     max-width: 900px;
@@ -44,32 +57,39 @@ header h1 {
     margin-bottom: 6px;
 }
 
+/* Ethics statement styling */
 .ethics {
     font-size: 0.9em;
     color: #ecf0f1;
 }
 
-/* ===== Layout ===== */
+
+/* =====================================================
+   MAIN LAYOUT
+===================================================== */
+
 #container {
     display: flex;
     width: 100%;
-    height: calc(100vh - 120px);
+    height: calc(100vh - 120px); /* Full viewport minus header */
     max-width: 100%;
 }
 
+/* Map container */
 #map {
-    position: relative; /* EXTREM WICHTIG */
+    position: relative; /* REQUIRED for crosshair positioning */
     flex: 2;
     max-width: 100%;
     overflow: hidden;
 }
 
+/* Survey / form panel */
 #survey {
     flex: 1;
-    background-color: white;
+    background-color: #ffffff;
     padding: 15px;
     overflow-y: auto;
-    border-left: 1px solid #ccc;
+    border-left: 1px solid #cccccc;
 }
 
 #survey h2,
@@ -77,7 +97,11 @@ header h1 {
     margin-top: 0;
 }
 
-/* ===== Form ===== */
+
+/* =====================================================
+   FORM ELEMENTS
+===================================================== */
+
 label {
     display: block;
     margin-top: 10px;
@@ -93,14 +117,16 @@ button {
     font-size: 16px;
 }
 
+/* Textarea adjustments */
 textarea {
     min-height: 80px;
 }
 
+/* Primary buttons */
 button {
     margin-top: 15px;
     background-color: #3498db;
-    color: white;
+    color: #ffffff;
     border: none;
     cursor: pointer;
 }
@@ -109,6 +135,7 @@ button:hover {
     background-color: #2980b9;
 }
 
+/* Download button (secondary action) */
 #downloadBtn {
     background-color: #27ae60;
 }
@@ -117,13 +144,18 @@ button:hover {
     background-color: #1e8449;
 }
 
+/* Helper / hint text */
 .hint {
     font-size: 0.9em;
-    color: #555;
+    color: #555555;
     margin-top: 10px;
 }
 
-/* ===== Crosshair ===== */
+
+/* =====================================================
+   MAP CROSSHAIR
+===================================================== */
+
 #crosshair {
     position: absolute;
     top: 50%;
@@ -131,10 +163,11 @@ button:hover {
     width: 24px;
     height: 24px;
     transform: translate(-50%, -50%);
-    pointer-events: none;
+    pointer-events: none; /* Allows map interaction through crosshair */
     z-index: 1000;
 }
 
+/* Vertical & horizontal lines */
 #crosshair::before,
 #crosshair::after {
     content: "";
@@ -142,6 +175,7 @@ button:hover {
     background-color: red;
 }
 
+/* Vertical line */
 #crosshair::before {
     width: 2px;
     height: 24px;
@@ -150,23 +184,30 @@ button:hover {
     transform: translateX(-50%);
 }
 
+/* Horizontal line */
 #crosshair::after {
-    height: 2px;
     width: 24px;
+    height: 2px;
     top: 50%;
     left: 0;
     transform: translateY(-50%);
 }
 
-/* ===== Mobile Optimierung ===== */
+
+/* =====================================================
+   MOBILE OPTIMIZATION
+===================================================== */
+
 @media (max-width: 768px) {
 
+    /* Header scaling */
     header h1 {
         font-size: 1.3em;
     }
 
+    /* Stack map and survey vertically */
     #container {
-        display: block;   /* Karte + Formular untereinander */
+        display: block;
         height: auto;
     }
 
@@ -178,10 +219,10 @@ button:hover {
     #survey {
         width: 100%;
         border-left: none;
-        border-top: 1px solid #ccc;
+        border-top: 1px solid #cccccc;
     }
 
-    /* Crosshair kleiner */
+    /* Smaller crosshair for mobile */
     #crosshair {
         width: 16px;
         height: 16px;
@@ -195,7 +236,7 @@ button:hover {
         width: 16px;
     }
 
-    /* Formularelemente und Schrift kompakter */
+    /* More compact form layout */
     #survey h2 {
         font-size: 1.2em;
         margin-bottom: 8px;
@@ -211,10 +252,11 @@ button:hover {
         margin-top: 8px;
     }
 
+    /* Keep inputs touch-friendly */
     #survey select,
     #survey textarea,
     #survey button {
-        font-size: 16px; /* Buttons & Inputs bleiben klickbar */
+        font-size: 16px;
     }
 
     #survey textarea {

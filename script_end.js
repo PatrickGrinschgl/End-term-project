@@ -1,11 +1,21 @@
-// Initialize map
+/* =====================================================
+   MAP INITIALIZATION
+===================================================== */
+
+// Create Leaflet map and set initial view (Graz – Innere Stadt)
 const map = L.map('map').setView([47.071, 15.438], 15);
 
+// Add OpenStreetMap basemap
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
-// Innere Stadt boundary (GeoJSON)
+
+/* =====================================================
+   LOAD DISTRICT BOUNDARY (GEOJSON)
+===================================================== */
+
+// Load Innere Stadt boundary and display it on the map
 fetch('innere_stadt.geojson')
     .then(response => response.json())
     .then(data => {
@@ -19,88 +29,120 @@ fetch('innere_stadt.geojson')
     });
 
 
-// Store collected data
+/* =====================================================
+   DATA STORAGE (IN-MEMORY)
+===================================================== */
+
+// GeoJSON FeatureCollection for participant input
 let geojsonData = {
     type: "FeatureCollection",
     features: []
 };
 
+// Variables reserved for future extensions
 let selectedLatLng = null;
 let tempMarker = null;
 
 
+/* =====================================================
+   FORM SUBMISSION & POINT CREATION
+===================================================== */
 
-// Handle form submission
-document.getElementById('surveyForm').addEventListener('submit', function (e) {
-    e.preventDefault();
+document
+    .getElementById('surveyForm')
+    .addEventListener('submit', function (e) {
 
-    const selectedLatLng = map.getCenter();
+        // Prevent page reload
+        e.preventDefault();
 
-    const feature = {
-        type: "Feature",
-        geometry: {
-            type: "Point",
-            coordinates: [selectedLatLng.lng, selectedLatLng.lat]
-        },
-        properties: {
-            experience: document.getElementById('theme').value,
-            reason: document.getElementById('reason').value,
-            comment: document.getElementById('comment').value,
-            age: document.getElementById('age').value,
-            gender: document.getElementById('gender').value,
-            timestamp: new Date().toISOString()
+        // Use map center as selected point (crosshair logic)
+        const selectedLatLng = map.getCenter();
+
+        // Create GeoJSON feature
+        const feature = {
+            type: "Feature",
+            geometry: {
+                type: "Point",
+                coordinates: [
+                    selectedLatLng.lng,
+                    selectedLatLng.lat
+                ]
+            },
+            properties: {
+                experience: document.getElementById('theme').value,
+                reason: document.getElementById('reason').value,
+                comment: document.getElementById('comment').value,
+                age: document.getElementById('age').value,
+                gender: document.getElementById('gender').value,
+                timestamp: new Date().toISOString()
+            }
+        };
+
+        // Store feature in memory
+        geojsonData.features.push(feature);
+
+
+        /* -----------------------------------------------
+           MARKER STYLING BASED ON EXPERIENCE
+        ----------------------------------------------- */
+
+        let markerColor;
+
+        switch (feature.properties.experience) {
+            case "comfortable":
+                markerColor = "green";
+                break;
+            case "stressed":
+                markerColor = "red";
+                break;
+            case "socialize":
+                markerColor = "blue";
+                break;
+            case "alone":
+                markerColor = "purple";
+                break;
+            default:
+                markerColor = "gray";
         }
-    };
 
-    geojsonData.features.push(feature);
+        // Add marker to map
+        L.circleMarker(selectedLatLng, {
+            radius: 6,
+            color: markerColor,
+            fillColor: markerColor,
+            fillOpacity: 0.7
+        })
+        .addTo(map)
+        .bindPopup(`
+            <b>${feature.properties.experience}</b><br>
+            <b>Reason:</b> ${feature.properties.reason}<br>
+            <b>Comment:</b> ${feature.properties.comment || "—"}
+        `);
 
-    // Determine marker color based on experience
-    let markerColor;
-    switch (feature.properties.experience) {
-        case "comfortable":
-            markerColor = "green";
-            break;
-        case "stressed":
-            markerColor = "red";
-            break;
-        case "socialize":
-            markerColor = "blue";
-            break;
-        case "alone":
-            markerColor = "purple";
-            break;
-        default:
-            markerColor = "gray";
-    }
-
-    // Add permanent marker
-    L.circleMarker(selectedLatLng, {
-        radius: 6,
-        color: markerColor,
-        fillColor: markerColor,
-        fillOpacity: 0.7
-    })
-    .addTo(map)
-    .bindPopup(`
-        <b>${feature.properties.experience}</b><br>
-        <b>Reason:</b> ${feature.properties.reason}<br>
-        <b>Comment:</b> ${feature.properties.comment || "—"}
-    `);
-
-    // Reset form
-    document.getElementById('surveyForm').reset();
-});
+        // Reset form after submission
+        document.getElementById('surveyForm').reset();
+    });
 
 
-// Download GeoJSON
-// Utility-Funktion: speichert JSON als Datei
+/* =====================================================
+   GEOJSON DOWNLOAD FUNCTIONALITY
+===================================================== */
+
+/**
+ * Utility function to save JSON content as a file
+ */
 function saveToFile(content, fileName) {
-    let blob = new Blob([JSON.stringify(content, null, 2)], { type: "application/json" });
-    let url = URL.createObjectURL(blob);
+    const blob = new Blob(
+        [JSON.stringify(content, null, 2)],
+        { type: "application/json" }
+    );
 
-    let link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
     link.href = url;
     link.download = fileName;
+
     document.body.appendChild(link);
     link.click();
 
@@ -108,49 +150,60 @@ function saveToFile(content, fileName) {
     URL.revokeObjectURL(url);
 }
 
-// Neuer Download-Button Listener
-document.getElementById('downloadBtn').addEventListener('click', function () {
-    if (geojsonData.features.length === 0) {
-        alert("No points to download!");
-        return;
-    }
+// Download button listener
+document
+    .getElementById('downloadBtn')
+    .addEventListener('click', function () {
 
-    // Erstelle eine Kopie der Features und füge Socio-Demographics hinzu
-    const dataToExport = JSON.parse(JSON.stringify(geojsonData)); // deep copy
+        // Prevent empty downloads
+        if (geojsonData.features.length === 0) {
+            alert("No points to download!");
+            return;
+        }
 
-    dataToExport.features.forEach(f => {
-        // Ihr habt bereits age, gender, experience, reason, timestamp gespeichert
-        // Wenn ihr noch was zusätzlich braucht, könnt ihr hier einfügen
+        // Deep copy of collected data
+        const dataToExport = JSON.parse(
+            JSON.stringify(geojsonData)
+        );
+
+        // Placeholder for future extensions
+        dataToExport.features.forEach(feature => {
+            // Additional attributes could be added here
+        });
+
+        // Filename with timestamp
+        const fileName = `participant_data_${new Date()
+            .toISOString()
+            .replace(/[:.]/g, '-')}.geojson`;
+
+        // Save file
+        saveToFile(dataToExport, fileName);
+        alert("Data downloaded successfully!");
+
+        // Optional cleanup
+        geojsonData.features = [];
+        document.getElementById('surveyForm').reset();
     });
 
-    // Dateiname mit Timestamp
-    const fileName = `participant_data_${new Date().toISOString().replace(/[:.]/g,'-')}.geojson`;
 
-    // Speichern
-    saveToFile(dataToExport, fileName);
-    alert("Data downloaded successfully!");
-
-    // Optional: Karte bereinigen & Formular reset
-    drawnItems.clearLayers();
-    geojsonData.features = [];
-    document.getElementById('surveyForm').reset();
-});
-
-
+/* =====================================================
+   DYNAMIC REASON SELECTION
+===================================================== */
 
 const themeSelect = document.getElementById('theme');
 const reasonSelect = document.getElementById('reason');
 
+// Filter reason options based on selected experience
 themeSelect.addEventListener('change', function () {
     const selectedTheme = this.value;
 
-    // Enable / disable reason dropdown
+    // Enable or disable reason dropdown
     reasonSelect.disabled = !selectedTheme;
 
-    // Reset selected reason
+    // Reset current selection
     reasonSelect.value = "";
 
-    // Show only matching reasons
+    // Show only reasons matching the selected theme
     Array.from(reasonSelect.options).forEach(option => {
         if (!option.dataset.theme) {
             option.hidden = false;
@@ -160,13 +213,17 @@ themeSelect.addEventListener('change', function () {
     });
 });
 
+
+/* =====================================================
+   MAP RESIZE FIXES
+===================================================== */
+
 // Initial fix after page load
 setTimeout(() => {
     map.invalidateSize();
 }, 200);
 
-// Fix for screen resize / orientation change
+// Fix for window resize / orientation changes
 window.addEventListener('resize', () => {
     map.invalidateSize();
 });
-
