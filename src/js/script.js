@@ -16,7 +16,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 ===================================================== */
 
 // Load Innere Stadt boundary and display it on the map
-fetch('innere_stadt.geojson')
+fetch('data/innere_stadt.geojson')
     .then(response => response.json())
     .then(data => {
         L.geoJSON(data, {
@@ -161,11 +161,6 @@ document
         const dataToExport = JSON.parse(
             JSON.stringify(geojsonData)
         );
-
-        // Placeholder for future extensions
-        dataToExport.features.forEach(feature => {
-            // Additional attributes could be added here
-        });
 
         // Filename with timestamp
         const fileName = `participant_data_${new Date()
