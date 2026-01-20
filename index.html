@@ -57,9 +57,13 @@
             <label for="theme">Experience type:</label>
             <select id="theme" required>
                 <option value="">Select one</option>
+
                 <option value="comfortable">Comfortable</option>
                 <option value="stressed">Stressed</option>
+                <option value="socialize">Socialize</option>
+                <option value="alone">Be alone</option>
             </select>
+
 
             <label for="reason">Reason:</label>
             <select id="reason" required disabled>
@@ -78,7 +82,22 @@
                 <option value="crowds" data-theme="stressed">Too many people</option>
                 <option value="unsafe" data-theme="stressed">Feeling unsafe</option>
                 <option value="poor_design" data-theme="stressed">Poor urban design</option>
+
+                <!-- Socialize reasons -->
+                <option value="meeting_friends" data-theme="socialize">Meeting friends</option>
+                <option value="cafes_bars" data-theme="socialize">Cafés or bars</option>
+                <option value="public_events" data-theme="socialize">Public events</option>
+                <option value="lively_atmosphere" data-theme="socialize">Lively atmosphere</option>
+                <option value="people_watching" data-theme="socialize">People watching</option>
+
+                <!-- Alone reasons -->
+                <option value="privacy" data-theme="alone">Privacy</option>
+                <option value="calm" data-theme="alone">Calm atmosphere</option>
+                <option value="nature" data-theme="alone">Connection to nature</option>
+                <option value="reflection" data-theme="alone">Thinking / reflection</option>
+                <option value="escape" data-theme="alone">Escape from crowds</option>
             </select>
+
 
             <label for="comment">Comment:</label>
             <textarea 

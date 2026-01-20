@@ -50,35 +50,47 @@ document.getElementById('surveyForm').addEventListener('submit', function (e) {
             gender: document.getElementById('gender').value,
             timestamp: new Date().toISOString()
         }
-
-
     };
 
     geojsonData.features.push(feature);
 
+    // Determine marker color based on experience
+    let markerColor;
+    switch (feature.properties.experience) {
+        case "comfortable":
+            markerColor = "green";
+            break;
+        case "stressed":
+            markerColor = "red";
+            break;
+        case "socialize":
+            markerColor = "blue";
+            break;
+        case "alone":
+            markerColor = "purple";
+            break;
+        default:
+            markerColor = "gray";
+    }
+
     // Add permanent marker
     L.circleMarker(selectedLatLng, {
         radius: 6,
-        color: feature.properties.experience === "comfortable" ? "green" : "red",
+        color: markerColor,
+        fillColor: markerColor,
         fillOpacity: 0.7
     })
     .addTo(map)
     .bindPopup(`
-    <b>${feature.properties.experience}</b><br>
-    Reason: ${feature.properties.reason}<br>
-    Comment: ${feature.properties.comment}
+        <b>${feature.properties.experience}</b><br>
+        <b>Reason:</b> ${feature.properties.reason}<br>
+        <b>Comment:</b> ${feature.properties.comment || "—"}
     `);
-
-
-
-    // Reset temp marker
-    map.removeLayer(tempMarker);
-    tempMarker = null;
-    selectedLatLng = null;
 
     // Reset form
     document.getElementById('surveyForm').reset();
 });
+
 
 // Download GeoJSON
 // Utility-Funktion: speichert JSON als Datei
