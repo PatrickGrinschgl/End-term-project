@@ -39,10 +39,6 @@ let geojsonData = {
     features: []
 };
 
-// Variables reserved for future extensions
-let selectedLatLng = null;
-let tempMarker = null;
-
 
 /* =====================================================
    FORM SUBMISSION & POINT CREATION
