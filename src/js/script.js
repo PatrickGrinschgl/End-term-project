@@ -82,23 +82,16 @@ document
            MARKER STYLING BASED ON EXPERIENCE
         ----------------------------------------------- */
 
-        let markerColor;
+        let markerColor = "gray"; // default color
 
-        switch (feature.properties.experience) {
-            case "comfortable":
-                markerColor = "green";
-                break;
-            case "stressed":
-                markerColor = "red";
-                break;
-            case "socialize":
-                markerColor = "blue";
-                break;
-            case "alone":
-                markerColor = "purple";
-                break;
-            default:
-                markerColor = "gray";
+        if (feature.properties.experience === "comfortable") {
+            markerColor = "green";
+        } else if (feature.properties.experience === "stressed") {
+            markerColor = "red";
+        } else if (feature.properties.experience === "socialize") {
+            markerColor = "blue";
+        } else if (feature.properties.experience === "alone") {
+            markerColor = "purple";
         }
 
         // Add marker to map
@@ -184,7 +177,8 @@ document
 const themeSelect = document.getElementById('theme');
 const reasonSelect = document.getElementById('reason');
 
-// Filter reason options based on selected experience
+// Show only reason options that match the selected experience type
+// Disable reason dropdown if no experience is selected
 themeSelect.addEventListener('change', function () {
     const selectedTheme = this.value;
 
@@ -209,7 +203,8 @@ themeSelect.addEventListener('change', function () {
    MAP RESIZE FIXES
 ===================================================== */
 
-// Initial fix after page load
+// Fix for Leaflet not displaying correctly on page load
+// Wait 200ms to ensure map container is rendered
 setTimeout(() => {
     map.invalidateSize();
 }, 200);
